@@ -17,6 +17,9 @@ func main() {
 	w := a.NewWindow("Регистрация")
 	w.Resize(fyne.NewSize(300, 360))
 
+	errField := canvas.NewText("", color.NRGBA{255, 0, 0, 255}) // поле для ошибки вводим на начале для удобства
+	errField.TextSize = 14
+
 	ic, err := fyne.LoadResourceFromPath("icon.png")
 	if err != nil {
 		fmt.Println("Ошибка")
@@ -43,12 +46,19 @@ func main() {
 
 	male := widget.NewRadioGroup([]string{"Мужской", "Женский"}, func(n string) {}) // Радиогруппа выбора пола
 
+	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
+
 	button := widget.NewButton("Зарегистрироваться", func() {
-		fmt.Printf("Имя %s\n", setname.Text)
-		fmt.Printf("Фамилия %s\n", setsurn.Text)
-		fmt.Printf("Логин %s\n", login.Text)
-		fmt.Printf("Пароль %s\n", password.Text)
-		fmt.Printf("Пол %s\n", male.Selected)
+		if setname.Text != "" && setsurn.Text != "" && login.Text != "" && password.Text != "" && male.Selected != "" {
+			errField.Text = ""
+			fmt.Printf("Имя %s\n", setname.Text)
+			fmt.Printf("Фамилия %s\n", setsurn.Text)
+			fmt.Printf("Логин %s\n", login.Text)
+			fmt.Printf("Пароль %s\n", password.Text)
+			fmt.Printf("Пол %s\n", male.Selected)
+		} else {
+			errField.Text = "ОШИБКА! ВЫ ЧТО ТО НЕ ВВЕЛИ"
+		}
 	})
 
 	url, err := url2.Parse("https://github.com/gurhz") // URl
@@ -56,9 +66,6 @@ func main() {
 		fmt.Println("Ошибка! Страница не существует или автор поменял никнейм") // Ошибка
 	}
 	link := widget.NewHyperlink("Мой гитхаб", url) // Гиперссылка
-
-	errField := canvas.NewText("", color.NRGBA{255, 0, 0, 255})
-	errField.TextSize = 14
 
 	w.SetContent(container.NewVBox(
 		reg,
@@ -68,6 +75,7 @@ func main() {
 		password,
 		setmale,
 		male,
+		approval,
 		button,
 		link,
 		errField,
