@@ -36,7 +36,7 @@ func main() {
 	login := widget.NewEntry() // Ввод логина
 	login.SetPlaceHolder("Логин")
 
-	password := widget.NewEntry() // Ввод пароляZ
+	password := widget.NewEntry() // Ввод пароля
 	password.SetPlaceHolder("Пароль")
 
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
