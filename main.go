@@ -56,6 +56,7 @@ func main() {
 			fmt.Printf("Логин %s\n", login.Text)
 			fmt.Printf("Пароль %s\n", password.Text)
 			fmt.Printf("Пол %s\n", male.Selected)
+			w.Close()
 		} else {
 			errField.Text = "ОШИБКА! ВЫ ЧТО ТО НЕ ВВЕЛИ"
 		}
