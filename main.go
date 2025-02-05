@@ -39,7 +39,7 @@ func main() {
 	password := widget.NewEntry() // Ввод пароля
 	password.SetPlaceHolder("Пароль")
 
-	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
+	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"Z
 
 	male := widget.NewRadioGroup([]string{"Мужской", "Женский"}, func(n string) {}) // Радиогруппа выбора пола
 
