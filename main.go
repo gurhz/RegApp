@@ -22,7 +22,7 @@ func main() {
 
 	ic, err := fyne.LoadResourceFromPath("icon.png")
 	if err != nil {
-		fmt.Println("Ошибка")
+		fmt.Println("Error - ", err)
 	}
 	w.SetIcon(ic)
 
@@ -64,7 +64,7 @@ func main() {
 
 	url, err := url2.Parse("https://github.com/gurhz") // URl
 	if err != nil {                                    // Если ошибка != ничего
-		fmt.Println("Ошибка! Страница не существует или автор поменял никнейм") // Ошибка
+		fmt.Println("Error - ", err) // Ошибка
 	}
 	link := widget.NewHyperlink("Мой гитхаб", url) // Гиперссылка
 
