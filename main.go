@@ -49,7 +49,7 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-		if setname.Text != "" && setsurn.Text != "" && login.Text != "" && password.Text != "" && male.Selected != "" {
+		if setname.Text != "" && setsurn.Text != "" && login.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
 			errField.Text = ""
 			fmt.Printf("Имя %s\n", setname.Text)
 			fmt.Printf("Фамилия %s\n", setsurn.Text)
