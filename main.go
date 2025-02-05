@@ -17,30 +17,26 @@ func main() {
 	w := a.NewWindow("Регистрация")
 	w.Resize(fyne.NewSize(300, 360))
 
-	errField := canvas.NewText("", color.NRGBA{255, 0, 0, 255}) // поле для ошибки вводим на начале для удобства
-	errField.TextSize = 14
-
 	ic, err := fyne.LoadResourceFromPath("icon.png")
 	if err != nil {
 		fmt.Println("Error - ", err)
 	}
 	w.SetIcon(ic)
 
+	errField := canvas.NewText("", color.NRGBA{255, 0, 0, 255}) // поле для ошибки вводим на начале для удобства
+	errField.TextSize = 14
+
 	reg := widget.NewLabel("РЕГИСТРАЦИЯ") // Текст посередине "РЕГИСТРАЦИЯ"
 	reg.Alignment = fyne.TextAlignCenter
 
-	setname := widget.NewEntry() // Ввод имени
-	setname.SetPlaceHolder("Имя")
-	setname.Resize(fyne.NewSize(20, 20))
+	username := widget.NewEntry() // Ввод имени
+	username.SetPlaceHolder("Имя пользователя")
 
-	setsurn := widget.NewEntry() // Ввод фамилии
-	setsurn.SetPlaceHolder("Фамилия")
-
-	login := widget.NewEntry() // Ввод логина
-	login.SetPlaceHolder("Логин")
-
-	password := widget.NewEntry() // Ввод пароля
+	password := widget.NewPasswordEntry() // Ввод пароля
 	password.SetPlaceHolder("Пароль")
+
+	email := widget.NewEntry() // Ввод логина
+	email.SetPlaceHolder("Почта")
 
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
 
@@ -49,11 +45,10 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-		if setname.Text != "" && setsurn.Text != "" && login.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
+		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
 			errField.Text = ""
-			fmt.Printf("Имя %s\n", setname.Text)
-			fmt.Printf("Фамилия %s\n", setsurn.Text)
-			fmt.Printf("Логин %s\n", login.Text)
+			fmt.Printf("Имя %s\n", username.Text)
+			fmt.Printf("Логин %s\n", email.Text)
 			fmt.Printf("Пароль %s\n", password.Text)
 			fmt.Printf("Пол %s\n", male.Selected)
 			w.Close()
@@ -70,10 +65,9 @@ func main() {
 
 	w.SetContent(container.NewVBox(
 		reg,
-		setname,
-		setsurn,
-		login,
+		username,
 		password,
+		email,
 		setmale,
 		male,
 		approval,
