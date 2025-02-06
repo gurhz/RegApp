@@ -9,6 +9,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"image/color"
 	url2 "net/url"
+	"strings"
 )
 
 func main() {
@@ -31,12 +32,30 @@ func main() {
 
 	username := widget.NewEntry() // Ввод имени
 	username.SetPlaceHolder("Имя пользователя")
+	username.OnChanged = func(s string) {
+		if strings.Contains(s, " ") {
+			// Удаляем пробелы
+			username.SetText(strings.ReplaceAll(s, " ", ""))
+		}
+	}
 
 	password := widget.NewPasswordEntry() // Ввод пароля
 	password.SetPlaceHolder("Пароль")
+	password.OnChanged = func(s string) {
+		if strings.Contains(s, " ") {
+			// Удаляем пробелы
+			password.SetText(strings.ReplaceAll(s, " ", ""))
+		}
+	}
 
 	email := widget.NewEntry() // Ввод логина
 	email.SetPlaceHolder("Почта")
+	email.OnChanged = func(s string) {
+		if strings.Contains(s, " ") {
+			// Удаляем пробелы
+			email.SetText(strings.ReplaceAll(s, " ", ""))
+		}
+	}
 
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
 
