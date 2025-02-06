@@ -79,12 +79,16 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-		fmt.Printf("Имя %s\n", username.Text)
-		fmt.Printf("Логин %s\n", email.Text)
-		fmt.Printf("Пароль %s\n", password.Text)
-		fmt.Printf("Пол %s\n", male.Selected)
-		fmt.Printf("Выбранная почта %s\n", mails.Selected)
-		w.Close()
+		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
+			fmt.Printf("Имя %s\n", username.Text)
+			fmt.Printf("Почта %s\n", email.Text)
+			fmt.Printf("Пароль %s\n", password.Text)
+			fmt.Printf("Пол %s\n", male.Selected)
+			fmt.Printf("Выбранная почта %s\n", mails.Selected)
+			w.Close()
+		} else {
+			errField.Text = "ОШИБКА! ВЫ ЧТО ТО НЕ ВВЕЛИ"
+		}
 	})
 
 	url, err := url2.Parse("https://github.com/gurhz") // URl
