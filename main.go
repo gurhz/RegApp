@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"image/color"
 	url2 "net/url"
@@ -17,6 +18,16 @@ func main() {
 
 	w := a.NewWindow("Регистрация")
 	w.Resize(fyne.NewSize(300, 360))
+
+	LightTheme := fyne.NewMenuItem("Светлая", func() {
+		a.Settings().SetTheme(theme.LightTheme())
+	})
+	DarkTheme := fyne.NewMenuItem("Тёмная", func() {
+		a.Settings().SetTheme(theme.DarkTheme())
+	})
+	menu := fyne.NewMenu("Тема", LightTheme, DarkTheme)
+	mainMenu := fyne.NewMainMenu(menu)
+	w.SetMainMenu(mainMenu)
 
 	ic, err := fyne.LoadResourceFromPath("icon.png")
 	if err != nil {
@@ -57,6 +68,12 @@ func main() {
 		}
 	}
 
+	emailOptions := []string{"@gmail.com", "@mail.ru", "@yandex.ru"}
+	mails := widget.NewSelect(emailOptions, func(selected string) {
+		fmt.Println("Выбранная почта ", selected)
+	})
+	mails.SetSelected(emailOptions[0])
+
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
 
 	male := widget.NewRadioGroup([]string{"Мужской", "Женский"}, func(n string) {}) // Радиогруппа выбора пола
@@ -64,16 +81,11 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
-			errField.Text = ""
-			fmt.Printf("Имя %s\n", username.Text)
-			fmt.Printf("Логин %s\n", email.Text)
-			fmt.Printf("Пароль %s\n", password.Text)
-			fmt.Printf("Пол %s\n", male.Selected)
-			w.Close()
-		} else {
-			errField.Text = "ОШИБКА! ВЫ ЧТО ТО НЕ ВВЕЛИ"
-		}
+		fmt.Printf("Имя %s\n", username.Text)
+		fmt.Printf("Логин %s\n", email.Text)
+		fmt.Printf("Пароль %s\n", password.Text)
+		fmt.Printf("Пол %s\n", male.Selected)
+		w.Close()
 	})
 
 	url, err := url2.Parse("https://github.com/gurhz") // URl
@@ -87,6 +99,7 @@ func main() {
 		username,
 		password,
 		email,
+		mails,
 		setmale,
 		male,
 		approval,
