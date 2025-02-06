@@ -69,9 +69,7 @@ func main() {
 	}
 
 	emailOptions := []string{"@gmail.com", "@mail.ru", "@yandex.ru"}
-	mails := widget.NewSelect(emailOptions, func(selected string) {
-		fmt.Println("Выбранная почта ", selected)
-	})
+	mails := widget.NewSelect(emailOptions, func(selected string) {})
 	mails.SetSelected(emailOptions[0])
 
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
@@ -85,6 +83,7 @@ func main() {
 		fmt.Printf("Логин %s\n", email.Text)
 		fmt.Printf("Пароль %s\n", password.Text)
 		fmt.Printf("Пол %s\n", male.Selected)
+		fmt.Printf("Выбранная почта %s\n", mails.Selected)
 		w.Close()
 	})
 
