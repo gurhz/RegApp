@@ -11,7 +11,23 @@ import (
 	"image/color"
 	url2 "net/url"
 	"strings"
+	"unicode"
 )
+
+func isValidLoginOrPassword(input string) bool {
+	// Задаем набор недопустимых символов
+	for _, char := range input {
+		if !isAllowed(char) {
+			return false
+		}
+	}
+	return true
+}
+
+func isAllowed(char rune) bool {
+	// Разрешаем только буквы, цифры и некоторые специальные символы
+	return unicode.IsLetter(char) || unicode.IsDigit(char) || char == '_' || char == '-'
+}
 
 func main() {
 	a := app.New()
@@ -69,7 +85,7 @@ func main() {
 	}
 
 	emailOptions := []string{"@gmail.com", "@mail.ru", "@yandex.ru"}
-	mails := widget.NewSelect(emailOptions, func(selected string) {})
+	mails := widget.NewSelect(emailOptions, nil)
 	mails.SetSelected(emailOptions[0])
 
 	setmale := widget.NewLabel("Укажите свой пол") // текст "Укажите свой пол"
@@ -79,15 +95,15 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked {
+
+		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked && isValidLoginOrPassword(password.Text) && isValidLoginOrPassword(email.Text) {
 			fmt.Printf("Имя %s\n", username.Text)
-			fmt.Printf("Почта %s\n", email.Text)
+			fmt.Printf("Почта %s\n", email.Text+mails.Selected)
 			fmt.Printf("Пароль %s\n", password.Text)
 			fmt.Printf("Пол %s\n", male.Selected)
-			fmt.Printf("Выбранная почта %s\n", mails.Selected)
 			w.Close()
 		} else {
-			errField.Text = "ОШИБКА! ВЫ ЧТО ТО НЕ ВВЕЛИ"
+			errField.Text = "Ошибка. Пароль или логин не валиден."
 		}
 	})
 
