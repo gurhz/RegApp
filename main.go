@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"image/color"
@@ -96,7 +97,8 @@ func main() {
 
 	button := widget.NewButton("Зарегистрироваться", func() {
 
-		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" && approval.Checked && isValidLoginOrPassword(password.Text) && isValidLoginOrPassword(email.Text) {
+		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" &&
+			approval.Checked && isValidLoginOrPassword(password.Text) && isValidLoginOrPassword(email.Text) {
 			fmt.Printf("Имя %s\n", username.Text)
 			fmt.Printf("Почта %s\n", email.Text+mails.Selected)
 			fmt.Printf("Пароль %s\n", password.Text)
@@ -117,8 +119,7 @@ func main() {
 		reg,
 		username,
 		password,
-		email,
-		mails,
+		container.New(layout.NewGridLayout(2), email, mails),
 		setmale,
 		male,
 		approval,
