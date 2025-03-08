@@ -10,6 +10,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"image/color"
+	"log"
 	url2 "net/url"
 	"strings"
 	"unicode"
@@ -96,7 +97,6 @@ func main() {
 	approval := widget.NewCheck("Даю согласие на обработку персональных данных", func(b bool) {})
 
 	button := widget.NewButton("Зарегистрироваться", func() {
-
 		if username.Text != "" && email.Text != "" && password.Text != "" && male.Selected != "" &&
 			approval.Checked && isValidLoginOrPassword(password.Text) && isValidLoginOrPassword(email.Text) {
 			fmt.Printf("Имя %s\n", username.Text)
@@ -111,7 +111,7 @@ func main() {
 
 	url, err := url2.Parse("https://github.com/gurhz") // URl
 	if err != nil {                                    // Если ошибка != ничего
-		fmt.Println("Error - ", err) // Ошибка
+		log.Println("Error - ", err) // Ошибка
 	}
 	link := widget.NewHyperlink("Мой гитхаб", url) // Гиперссылка
 
