@@ -4,17 +4,25 @@ import (
 	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"image/color"
 	"log"
 	url2 "net/url"
 	"strings"
 	"unicode"
 )
+
+func removeSpaces(entry *widget.Entry) {
+	entry.OnChanged = func(s string) {
+		if strings.Contains(s, " ") {
+			// Удаляем пробелы
+			entry.SetText(strings.ReplaceAll(s, " ", ""))
+		}
+	}
+}
 
 func isValidLoginOrPassword(input string) bool {
 	// Задаем набор недопустимых символов
@@ -35,7 +43,7 @@ func main() {
 	a := app.New()
 
 	w := a.NewWindow("Регистрация")
-	w.Resize(fyne.NewSize(300, 360))
+	w.Resize(fyne.NewSize(400, 460))
 
 	LightTheme := fyne.NewMenuItem("Светлая", func() {
 		a.Settings().SetTheme(theme.LightTheme())
@@ -53,38 +61,20 @@ func main() {
 	}
 	w.SetIcon(ic)
 
-	errField := canvas.NewText("", color.NRGBA{255, 0, 0, 255}) // поле для ошибки вводим на начале для удобства
-	errField.TextSize = 14
-
 	reg := widget.NewLabel("РЕГИСТРАЦИЯ") // Текст посередине "РЕГИСТРАЦИЯ"
 	reg.Alignment = fyne.TextAlignCenter
 
 	username := widget.NewEntry() // Ввод имени
 	username.SetPlaceHolder("Имя пользователя")
-	username.OnChanged = func(s string) {
-		if strings.Contains(s, " ") {
-			// Удаляем пробелы
-			username.SetText(strings.ReplaceAll(s, " ", ""))
-		}
-	}
+	removeSpaces(username)
 
 	password := widget.NewPasswordEntry() // Ввод пароля
 	password.SetPlaceHolder("Пароль")
-	password.OnChanged = func(s string) {
-		if strings.Contains(s, " ") {
-			// Удаляем пробелы
-			password.SetText(strings.ReplaceAll(s, " ", ""))
-		}
-	}
+	removeSpaces(password)
 
 	email := widget.NewEntry() // Ввод логина
 	email.SetPlaceHolder("Почта")
-	email.OnChanged = func(s string) {
-		if strings.Contains(s, " ") {
-			// Удаляем пробелы
-			email.SetText(strings.ReplaceAll(s, " ", ""))
-		}
-	}
+	removeSpaces(email)
 
 	emailOptions := []string{"@gmail.com", "@mail.ru", "@yandex.ru"}
 	mails := widget.NewSelect(emailOptions, nil)
@@ -105,7 +95,7 @@ func main() {
 			fmt.Printf("Пол %s\n", male.Selected)
 			w.Close()
 		} else {
-			errField.Text = "Ошибка. Пароль или логин не валиден."
+			dialog.ShowInformation("Упс!", "По всей видимости вы что-то забыли записать!", w)
 		}
 	})
 
@@ -125,7 +115,6 @@ func main() {
 		approval,
 		button,
 		link,
-		errField,
 	))
 
 	w.ShowAndRun() // Запуск
